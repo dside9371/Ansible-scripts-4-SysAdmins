@@ -9,16 +9,6 @@
   ignore_errors: true
   tasks:
     - shell: "getent passwd | awk -F: '$3 > 1000 {print $1}'"
-      when:
-       - type == "ign"
-       - env == "v"
       register: user_list
     - debug: var=user_list.stdout_lines
-      when:
-       - type == "ign"
-       - env == "v"
-
     - local_action: lineinfile line={{inventory_hostname + '\n' +  user_list.stdout }} path=/etc/ansible/userslist.txt
-      when:
-       - type == "ign"
-       - env == "v"
