@@ -1,6 +1,6 @@
 # Created By: Khalid Muslih
 # Created Date: 12/17/2019
-# Purpose: Install list servers and their users and copy them into a text file
+# Purpose: list servers and their users and copy them into a text file
 # Instructions: you have to create the empty text file "userslist.txt" before running this playbook
 ---
 - hosts: all
