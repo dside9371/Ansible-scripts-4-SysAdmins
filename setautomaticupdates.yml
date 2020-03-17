@@ -1,0 +1,32 @@
+########################################################################
+# Created By: Khalid Muslih
+# Created Date: 03/17/2020
+# Purpose: enable automatic security updates on Ubuntu servers
+# Instructions: 
+#             - download the jnv.unattended-upgrades role for ansible,
+#             - before running this playbook
+#             - check and download updates every day
+#             - run apt-get autoclean every 15 days
+#             - fix "unclean" dpkg exits
+########################################################################
+---
+- hosts: all
+  become: yes
+  roles:
+  - role: jnv.unattended-upgrades
+    unattended_origins_patterns:
+    - 'origin=Ubuntu,archive=${distro_codename}-security'
+# By default, only security updates are allowed for Ubuntu
+    unattended_autofix_interrupted_dpkg: true
+# whether on unclean dpkg exit to run dpkg --force-confold --configure -a
+    unattended_verbose: 1
+# Define verbosity level of APT for periodic runs: 1: progress report
+    unattended_update_package_list: 1
+# Do "apt-get update" automatically every n-days (0=disable)
+#    unattended_update_days: 3
+# Set the days of the week that updates should be applied.
+# The days can be specified as localized abbreviated or full names. Or as integers where "0" is Sunday, "1" is Monday etc. Example: {"Mon";"Fri"};
+    unattended_autoclean_interval: 7
+# Do "apt-get autoclean" every n-days (0=disable)
+    unattended_remove_unused_dependencies: true
+# do automatic removal of new unused dependencies after the upgrade
