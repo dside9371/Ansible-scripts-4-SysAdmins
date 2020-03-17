@@ -1,3 +1,6 @@
+# Created By: Khalid Muslih
+# Created Date: 2/11/2020
+# Purpose: View running services on a specific host
 ---
 - hosts: virtualmachines
   gather_facts: no
@@ -5,5 +8,4 @@
   tasks:
     - shell: ps -eo pcpu,user,args | sort -r -k1 | head -n5
       register: ps
-
     - debug: var=ps.stdout_lines
