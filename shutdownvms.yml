@@ -1,0 +1,18 @@
+# Created By: Khalid Muslih
+# Created Date: 10/11/2019
+# Purpose: safely shutdown physical Linux and Windows Servers
+# Instructions: in order to run the playbook, you have to gain the appropriate ssh
+# creds.
+---
+- hosts: all
+  vars_prompt:
+    - name: "do_it"
+      prompt: "Do you want to Shutdown the phyiscal servers (yes/no)?"
+      private: no
+  gather_facts: no
+  tasks:
+    - name: "shutdown linux machines"
+      become: yes
+      command: /sbin/shutdown -h now
+      when: do_it | bool
+      ignore_errors: yes
