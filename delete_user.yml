@@ -1,0 +1,28 @@
+# Created By: Khalid Muslih
+# Created Date: 10/30/2019
+# Purpose: give the admin a choice to look up a username, or delete a username
+# Instructions: the script will ask you for the username and if you want to delete it
+# if you choose no, then the script will only list the servers that have that username.
+# if yes. the script will delete the username from these servers
+---
+- hosts: all
+  vars_prompt:
+    - name: username
+      prompt: "what is the username that you would like to find?: "
+      private: no
+    - name: "do_delete"
+      prompt: "Do you want to delete the user? (yes/no): "
+      private: no
+  gather_facts: no
+  tasks:
+    - shell: 'getent passwd {{ username }}'
+      register: user_exist
+    - debug: var=user_exist.stdout_lines
+    - user:
+        name: '{{ username }}'
+        state: absent
+        remove: yes
+      when:
+        - username != "root"
+        - username != "it-user"
+        - do_delete | bool 
